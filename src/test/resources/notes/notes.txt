@@ -1,0 +1,14 @@
+POM: Design Pattern
+DD:
+Libs: Generic Functions
+
+POM:
+Page:
+- for eevry page in Web/mobile app, we need to create seperate page java class.
+
+KD
+1. Open Browser
+2. Enter URL
+3. Enter un
+4. Enter pwd
+5. click on login
