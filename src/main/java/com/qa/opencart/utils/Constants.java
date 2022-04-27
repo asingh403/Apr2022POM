@@ -13,7 +13,7 @@ public class Constants {
 	public static final String DEV_ENV_PATH = "./src/test/resources/config/dev.config.properties";
 	
 	/******* WAIT TIME ********/
-	public static final int DEFAULT_TIME_OUT = 5;
+	public static final int DEFAULT_TIME_OUT = 6;
 	
 	
 	/*********** Login Page *******/
