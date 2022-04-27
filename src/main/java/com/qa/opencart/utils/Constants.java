@@ -25,7 +25,7 @@ public class Constants {
 	
 	/*********** Account Page *******/
 	public static final String ACCOUNTS_PAGE_TITLE = "My Account";
-	public static final String ACCOUNT_PAGE_HEADER = "Your Store";
+	public static final String MY_ACCOUNT = "Your Store";
 	//public static final String ACCOUNT_PAGE_HEADER = "Your Store11"; // making fail
 
 	/*********** ProductInfo Page ***********/ 
