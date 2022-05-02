@@ -7,8 +7,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import org.testng.asserts.SoftAssert;
-
-import com.beust.jcommander.Parameter;
 import com.qa.opencart.factory.DriverFactory;
 import com.qa.opencart.pages.AccountsPage;
 import com.qa.opencart.pages.LoginPage;
@@ -30,18 +28,18 @@ public class BaseTest {
 	
 	@Parameters({"browser", "browserversion"})
 	@BeforeTest
-	public void setup(String browser, String browserversion) {
+	public void setup(String browserName, String browserversion) {
 		
 		df = new DriverFactory();
 		prop = df.init_prop();
 		driver = df.init_driver(prop);
 		
-		if(browser !=null) {
-			prop.setProperty("browser", browser);
+		if(browserName !=null) {
+			prop.setProperty("browser", browserName);
 			prop.setProperty("browserversion", browserversion);
 		}
 		
-		
+		driver = df.init_driver(prop);
 		loginPage = new LoginPage(driver);
 		softAssert = new SoftAssert();
 		
@@ -52,6 +50,4 @@ public class BaseTest {
 		driver.quit();
 		
 	}
-	
-
 }

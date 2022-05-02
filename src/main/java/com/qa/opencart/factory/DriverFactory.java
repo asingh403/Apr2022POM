@@ -31,7 +31,7 @@ public class DriverFactory {
 	public OptionsManager optionsManager;
 	public static String highlight;
 
-	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
+	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<WebDriver>();
 
 	public WebDriver init_driver(Properties prop) {
 		String browserName = prop.getProperty("browser").trim();
@@ -44,39 +44,35 @@ public class DriverFactory {
 
 		if (browserName.equals("chrome")) {
 			WebDriverManager.chromedriver().setup();
-
+			
 			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
-				// remote
-				init_remote("chrome", "browserversion");
+				init_remoteDriver("chrome", browserVersion);
 
 			} else {
 				// local
 				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
 			}
 
-			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
 
 		} else if (browserName.equals("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
 			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
 				// remote
-				init_remote("firefox", "browserversion");
+				init_remoteDriver("firefox", browserVersion);
 
 			} else {
-				// remote
+				// local
 				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
 			}
 		}
 
 		else if (browserName.equals("safari")) {
-			WebDriverManager.safaridriver().setup();
-			driver = new SafariDriver();
 			tlDriver.set(new SafariDriver());
 		} else {
 			System.out.println("Please pass the right browser :: " + browserName);
 		}
 
-		getDriver().manage().window().fullscreen();
+		//getDriver().manage().window().fullscreen();
 		getDriver().manage().deleteAllCookies();
 		// openUrl(prop.getProperty("url"));
 
@@ -90,7 +86,7 @@ public class DriverFactory {
 		return getDriver();
 	}
 
-	private void init_remote(String browser, String browserversion) {
+	private void init_remoteDriver(String browser, String browserversion) {
 		System.out.println("Running test on Remote grid server :: " + browser);
 
 		if (browser.equalsIgnoreCase("chrome")) {

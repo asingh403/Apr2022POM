@@ -12,8 +12,8 @@
 	</listeners>
 
 	<test name="Open Cart Login Page Test - ch -89">
-		<parameter name = "browser" value = "chrome" />
-		<parameter name = "browserversion" value = "89" />
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="89" />
 
 		<classes>
 			<class name="com.qa.opencart.tests.LoginPageTest" />
@@ -22,8 +22,8 @@
 
 
 	<test name="Open Cart Login Page Test - ch -90">
-		<parameter name = "browser" value = "chrome" />
-		<parameter name = "browserversion" value = "90" />
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="90" />
 
 		<classes>
 			<class name="com.qa.opencart.tests.LoginPageTest" />
@@ -32,8 +32,8 @@
 
 
 	<test name="Open Cart Login Page Test - ff -83">
-		<parameter name = "browser" value = "firefox" />
-		<parameter name = "browserversion" value = "83" />
+		<parameter name="browser" value="firefox" />
+		<parameter name="browserversion" value="83" />
 
 		<classes>
 			<class name="com.qa.opencart.tests.LoginPageTest" />
@@ -42,16 +42,16 @@
 
 
 	<test name="Open Cart Accounts Page Test - ch - 90">
-		<parameter name = "browser" value = "chrome" />
-		<parameter name = "browserversion" value = "90" />
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="90" />
 		<classes>
 			<class name="com.qa.opencart.tests.AccountsPageTest" />
 		</classes>
 	</test>
 
 	<test name="Open Cart Accounts Page Test - ch - 89">
-		<parameter name = "browser" value = "chrome" />
-		<parameter name = "browserversion" value = "89" />
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="89" />
 		<classes>
 			<class name="com.qa.opencart.tests.AccountsPageTest" />
 		</classes>
@@ -60,17 +60,18 @@
 
 
 	<test name="Open Cart Product Info Page Test">
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="90" />
 		<classes>
 			<class name="com.qa.opencart.tests.ProductInfoPageTest" />
 		</classes>
 	</test>
 
 	<test name="Open Cart Product Registration Page Test">
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="90" />
 		<classes>
 			<class name="com.qa.opencart.tests.RegistrationPageTest" />
 		</classes>
 	</test>
-
-
-
 </suite>

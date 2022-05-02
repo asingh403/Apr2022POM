@@ -17,6 +17,8 @@ public class OptionsManager {
 	
 	public ChromeOptions getChromeOptions() {
 		co = new ChromeOptions();
+		co.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+		co.addArguments("--no-sandbox");
 		co.addArguments("--start-fullscreen");
 		
 //		if(Boolean.parseBoolean("remote")) {
