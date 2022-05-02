@@ -57,7 +57,7 @@
 		</classes>
 	</test>
 
-<!-- 
+
 
 	<test name="Open Cart Product Info Page Test">
 		<classes>
@@ -70,6 +70,6 @@
 			<class name="com.qa.opencart.tests.RegistrationPageTest" />
 		</classes>
 	</test>
--->
+
 
 </suite>
