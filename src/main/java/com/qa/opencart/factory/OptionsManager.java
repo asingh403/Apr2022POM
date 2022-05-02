@@ -18,22 +18,22 @@ public class OptionsManager {
 	public ChromeOptions getChromeOptions() {
 		co = new ChromeOptions();
 		co.addArguments("--start-fullscreen");
-		co.addArguments("--disable-blínk-features=AutomationControlled");
 		
-		if(Boolean.parseBoolean(prop.getProperty("headless")))
-			co.addArguments("--headless");
-		if(Boolean.parseBoolean(prop.getProperty("incognito")))
-			co.addArguments("--incognito");
+//		if(Boolean.parseBoolean("remote")) {
+//			co.setPlatformName("Linux");
+//			co.setBrowserVersion("94");
+//		}
+		
+		if(Boolean.parseBoolean(prop.getProperty("headless"))) co.addArguments("--headless");
+		if(Boolean.parseBoolean(prop.getProperty("incognito"))) co.addArguments("--incognito");
 		
 		return co;
 	}
 	public FirefoxOptions getFirefoxOptions() {
 		fo = new FirefoxOptions();
-		fo.addArguments("--start-fullscreen");
-		if(Boolean.parseBoolean(prop.getProperty("headless")))
-			co.addArguments("--headless");
-		if(Boolean.parseBoolean(prop.getProperty("incognito")))
-			co.addArguments("--incognito");
+		//fo.addArguments("--start-fullscreen");
+		if(Boolean.parseBoolean(prop.getProperty("headless"))) co.addArguments("--headless");
+		if(Boolean.parseBoolean(prop.getProperty("incognito"))) co.addArguments("--incognito");
 		
 		return fo;
 	}

@@ -13,7 +13,11 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.qa.opencart.utils.Constants;
@@ -31,6 +35,8 @@ public class DriverFactory {
 
 	public WebDriver init_driver(Properties prop) {
 		String browserName = prop.getProperty("browser").trim();
+		String browserVersion = prop.getProperty("browserversion").trim();
+		
 		System.out.println("browser name is : " + browserName);
 
 		highlight = prop.getProperty("highlight");
@@ -38,34 +44,81 @@ public class DriverFactory {
 
 		if (browserName.equals("chrome")) {
 			WebDriverManager.chromedriver().setup();
-			// driver = new ChromeDriver(optionsManager.getChromeOptions());
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// remote
+				init_remote("chrome", "browserversion");
+
+			} else {
+				// local
+				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+			}
+
 			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
 
 		} else if (browserName.equals("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
-			// driver = new FirefoxDriver(optionsManager.getFirefoxOptions());
-			tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// remote
+				init_remote("firefox", "browserversion");
 
-		} else if (browserName.equals("safari")) {
-			WebDriverManager.firefoxdriver().setup();
+			} else {
+				// remote
+				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+			}
+		}
+
+		else if (browserName.equals("safari")) {
+			WebDriverManager.safaridriver().setup();
 			driver = new SafariDriver();
 			tlDriver.set(new SafariDriver());
 		} else {
 			System.out.println("Please pass the right browser :: " + browserName);
 		}
 
-		//getDriver().manage().window().fullscreen();
+		getDriver().manage().window().fullscreen();
 		getDriver().manage().deleteAllCookies();
-		//openUrl(prop.getProperty("url"));
-		
+		// openUrl(prop.getProperty("url"));
+
 		URL url;
 		try {
 			url = new URL(prop.getProperty("url"));
 			openUrl(url);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-		}		
+		}
 		return getDriver();
+	}
+
+	private void init_remote(String browser, String browserversion) {
+		System.out.println("Running test on Remote grid server :: " + browser);
+
+		if (browser.equalsIgnoreCase("chrome")) {
+			DesiredCapabilities cap = new DesiredCapabilities();
+			
+			cap.setCapability("browserName", "chrome");
+			cap.setCapability("browserVersion", browserversion);
+			cap.setCapability("enableVNC", true);
+			
+			cap.setCapability(ChromeOptions.CAPABILITY, optionsManager.getChromeOptions());
+			try {
+				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), cap));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		} else if (browser.equalsIgnoreCase("firefox")) {
+			DesiredCapabilities cap = new DesiredCapabilities();
+			cap.setCapability("browserName", "firefox");
+			cap.setCapability("browserVersion", browserversion);
+			cap.setCapability("enableVNC", true);
+						
+			cap.setCapability(FirefoxOptions.FIREFOX_OPTIONS, optionsManager.getFirefoxOptions());
+			try {
+				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), cap));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -83,7 +136,7 @@ public class DriverFactory {
 		String envName = System.getProperty("env"); // QA/dev/stage/uat
 
 		if (envName == null) {
-			System.out.println("Running on PROD env: "+ Constants.PROD_CONFIG_FILE_PATH);
+			System.out.println("Running on PROD env: " + Constants.PROD_CONFIG_FILE_PATH);
 			try {
 				ip = new FileInputStream(Constants.PROD_CONFIG_FILE_PATH);
 			} catch (FileNotFoundException e) {
@@ -123,14 +176,14 @@ public class DriverFactory {
 		}
 		return prop;
 	}
-	
+
 	/**
 	 * take screenshot
 	 */
-	
+
 	public String getScreenshot() {
-		File src = ((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
-		String path = System.getProperty("user.dir")+"/screenshots/"+System.currentTimeMillis()+".png";
+		File src = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+		String path = System.getProperty("user.dir") + "/screenshots/" + System.currentTimeMillis() + ".png";
 		File destination = new File(path);
 		try {
 			FileUtils.copyFile(src, destination);
@@ -139,55 +192,56 @@ public class DriverFactory {
 		}
 		return path;
 	}
-	
+
 	/**
 	 * launch url
+	 * 
 	 * @param url
 	 */
 	public void openUrl(String url) {
 		try {
-			if(url == null) {
+			if (url == null) {
 				throw new Exception("url is null");
-			}			
-		}catch(Exception e) {
-			
-		}		
+			}
+		} catch (Exception e) {
+
+		}
 		getDriver().get(url);
 	}
-	
+
 	public void openUrl(URL url) {
 		try {
-			if(url == null) {
+			if (url == null) {
 				throw new Exception("url is null");
-			}			
-		}catch(Exception e) {
-			
-		}		
+			}
+		} catch (Exception e) {
+
+		}
 		getDriver().navigate().to(url);
 	}
-	
+
 	public void openUrl(String baseUrl, String path) {
 		try {
-			if(baseUrl == null) {
+			if (baseUrl == null) {
 				throw new Exception("baseUrl is null");
-			}			
-		}catch(Exception e) {
-			
+			}
+		} catch (Exception e) {
+
 		}
-		//https:amazon.in/acctpage/users.html
-		getDriver().get(baseUrl+"/"+path);
+		// https:amazon.in/acctpage/users.html
+		getDriver().get(baseUrl + "/" + path);
 	}
-	
+
 	public void openUrl(String baseUrl, String path, String queryParam) {
 		try {
-			if(baseUrl == null) {
+			if (baseUrl == null) {
 				throw new Exception("baseUrl is null");
-			}			
-		}catch(Exception e) {
-			
+			}
+		} catch (Exception e) {
+
 		}
-		//https:amazon.in/acctpage/users.html?fn="ashu" &&ln = "sngh"
-		getDriver().get(baseUrl+"/"+path+"?"+queryParam);
+		// https:amazon.in/acctpage/users.html?fn="ashu" &&ln = "sngh"
+		getDriver().get(baseUrl + "/" + path + "?" + queryParam);
 	}
-	
+
 }
